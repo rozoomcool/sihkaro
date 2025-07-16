@@ -37,16 +37,54 @@ class _MainAppState extends State<MainApp> {
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(16)
-              )
-            )
-          )
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
+          buttonTheme: ButtonThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(16),
+            ),
+          ),
+          iconButtonTheme: IconButtonThemeData(
+            style: IconButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
         ),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Color(0xFF0092b8),
             secondary: Color(0xFF74d4ff),
             surfaceContainerLow: Color(0xFFf4f4f5),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
+          buttonTheme: ButtonThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(16),
+            ),
+          ),
+          iconButtonTheme: IconButtonThemeData(
+            style: IconButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
           ),
         ),
         themeMode: mode,
