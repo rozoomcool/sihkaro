@@ -36,7 +36,7 @@ class SourcePanel extends StatelessWidget {
                         ),
                       IconButton(
                         onPressed: toggle,
-                        icon: Icon(Icons.align_horizontal_left_rounded),
+                        icon: Icon(isExtended ? Icons.view_sidebar_outlined : Icons.source_rounded),
                       ),
                     ],
                   ),
@@ -55,10 +55,12 @@ class SourcePanel extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: FilledButton.icon(
-                            onPressed: () {},
-                            label: Text("Добавить"),
-                            icon: Icon(Icons.add),
+                          child: SizedBox(
+                            child: FilledButton.icon(
+                              onPressed: () {},
+                              label: Text("Добавить"),
+                              icon: Icon(Icons.add),
+                            ),
                           ),
                         ),
                         Expanded(
