@@ -26,9 +26,10 @@ class StudioPanel extends StatelessWidget {
                   Padding(
                     padding: isExtended
                         ? const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0)
-                        : EdgeInsetsGeometry.symmetric(
-                            vertical: 8,
-                            horizontal: 4,
+                        : const EdgeInsets.only(
+                            top: 8.0,
+                            left: 4.0,
+                            right: 4.0,
                           ),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -42,7 +43,10 @@ class StudioPanel extends StatelessWidget {
                         IconButton(
                           onPressed: toggle,
                           icon: Icon(
-                            isExtended ? Icons.view_sidebar_outlined : Icons.token_outlined),
+                            isExtended
+                                ? Icons.view_sidebar_outlined
+                                : Icons.token_outlined,
+                          ),
                         ),
                       ],
                     ),

@@ -74,6 +74,13 @@ class _MainAppState extends State<MainApp> {
               ),
             ),
           ),
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
           buttonTheme: ButtonThemeData(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadiusGeometry.circular(16),
