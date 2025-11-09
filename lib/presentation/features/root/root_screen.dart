@@ -1,28 +1,35 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sihkaro/presentation/features/chat/chat_panel.dart';
-import 'package:sihkaro/presentation/features/source/source_panel.dart';
-import 'package:sihkaro/presentation/features/studio/studio_panel.dart';
 import 'package:sihkaro/presentation/state/theme_mode_state_widget.dart';
-import 'package:sihkaro/presentation/widgets/side_bar.dart';
+// import 'package:sihkaro/presentation/widgets/side_bar.dart';
 
-class RootLayout extends StatefulWidget {
-  const RootLayout({super.key});
+@RoutePage()
+class RootScreen extends StatefulWidget {
+  const RootScreen({super.key});
 
   @override
-  State<RootLayout> createState() => _RootLayoutState();
+  State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootLayoutState extends State<RootLayout> {
+class _RootScreenState extends State<RootScreen> {
   bool extendedSideBar = false;
+
+  final Shader linearGradient = LinearGradient(
+    colors: <Color>[Colors.purple, Colors.cyan],
+  ).createShader(Rect.fromLTWH(0.0, 0.0, 50.0, 20.0));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 24.0),
-          child: Text("Sihkaro"),
+        title: Text(
+          "MindbookLM",
+          style: TextStyle(
+            // fontSize: 60.0,
+            fontWeight: FontWeight.bold,
+            foreground: Paint()..shader = linearGradient,
+          ),
         ),
         centerTitle: false,
         elevation: 0,
@@ -46,27 +53,7 @@ class _RootLayoutState extends State<RootLayout> {
           ),
         ],
       ),
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SideBar(extended: extendedSideBar),
-          Flexible(
-            fit: FlexFit.tight,
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                spacing: 12,
-                children: [
-                  SourcePanel(),
-                  Flexible(fit: FlexFit.tight, child: ChatPanel()),
-                  StudioPanel(),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: AutoRouter(),
     );
   }
 }

@@ -7,7 +7,7 @@ class SourcePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CollapsedContainer(
-      size: 400,
+      size: 232,
       collapsedSize: 48,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(12),
@@ -36,7 +36,7 @@ class SourcePanel extends StatelessWidget {
                         ),
                       IconButton(
                         onPressed: toggle,
-                        icon: Icon(isExtended ? Icons.view_sidebar_outlined : Icons.source_rounded),
+                        icon: Icon(isExtended ? Icons.view_sidebar_rounded : Icons.source_rounded),
                       ),
                     ],
                   ),
@@ -47,24 +47,21 @@ class SourcePanel extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: isExtended ? 8.0 : 4.0,
-                vertical: 8,
               ),
               child: isExtended
-                  ? Row(
+                  ? Column(
                       spacing: 12,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: SizedBox(
-                            child: FilledButton.icon(
-                              onPressed: () {},
-                              label: Text("Добавить"),
-                              icon: Icon(Icons.add),
-                            ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: () {},
+                            label: Text("Добавить"),
+                            icon: Icon(Icons.add),
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
+                        SizedBox(
+                          width: double.infinity,
                           child: FilledButton.tonalIcon(
                             onPressed: () {},
                             label: Text("Найти"),

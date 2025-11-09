@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sihkaro/presentation/features/root/root_screen.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sihkaro/presentation/router/router.dart';
 import 'package:sihkaro/presentation/state/theme_mode_state_widget.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
+  runApp(ProviderScope(child: const MainApp()));
 }
 
 class MainApp extends StatefulWidget {
@@ -14,7 +18,8 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  ThemeMode mode = ThemeMode.dark;
+  ThemeMode mode = ThemeMode.light;
+  final _appRouter = AppRouter();
 
   void toggleTheme() => setState(() {
     mode = (mode == ThemeMode.dark) ? ThemeMode.light : ThemeMode.dark;
@@ -22,10 +27,11 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+    _appRouter.navigatePath("/auth");
     return ThemeModeStateWidget(
       data: mode,
       change: toggleTheme,
-      child: MaterialApp(
+      child: MaterialApp.router(
         darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
           colorScheme: ColorScheme.fromSeed(
             brightness: Brightness.dark,
@@ -74,6 +80,13 @@ class _MainAppState extends State<MainApp> {
               ),
             ),
           ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(16),
+              ),
+            ),
+          ),
           filledButtonTheme: FilledButtonThemeData(
             style: FilledButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -96,7 +109,7 @@ class _MainAppState extends State<MainApp> {
         ),
         themeMode: mode,
         debugShowCheckedModeBanner: false,
-        home: RootLayout(),
+        routerConfig: _appRouter.config(),
       ),
     );
   }

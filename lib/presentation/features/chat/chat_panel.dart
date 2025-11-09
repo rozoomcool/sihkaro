@@ -110,9 +110,7 @@ class ChatPanel extends StatelessWidget {
                                         ),
                                         IconButton(
                                           onPressed: () {},
-                                          icon: Icon(
-                                            Icons.language,
-                                          ),
+                                          icon: Icon(Icons.language),
                                         ),
                                         IconButton.filled(
                                           onPressed: () {},
