@@ -72,7 +72,7 @@ class HomeScreen extends HookConsumerWidget {
                       ),
                     );
                   }
-                  return Divider(thickness: 1, color: Colors.white10,);
+                  return Divider(thickness: 1, color: Colors.white24,);
                 },
                 itemBuilder: (context, i) {
                   final color = listColors[i % listColors.length];

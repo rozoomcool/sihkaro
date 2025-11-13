@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_hooks/flutter_hooks.dart';
@@ -86,51 +88,45 @@ class RootScreen extends HookConsumerWidget {
                       ),
                     ),
               appBar: AppBar(
-                // title: Text(
-                //   "MindbookLM",
-                //   style: TextStyle(
-                //   ),
-                // ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                scrolledUnderElevation: 1,  
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
+                  ),
+                ),
+                flexibleSpace: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
+                  ),
+                  child: BackdropFilter(
+                    blendMode: BlendMode.src,
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                        ),
+                        border: BoxBorder.fromLTRB(bottom: BorderSide(width: 0.5, color: Colors.white70)),
+                        color: Colors.black.withAlpha(70),
+                      ),
+                    ),
+                  ),
+                ),
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(),
                 ),
                 actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.logout_rounded),
-                  ),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.logout))
                 ],
-                backgroundColor: Colors.black,
-                centerTitle: true,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                notificationPredicate: (_) => false,
-                title: Icon(Icons.logo_dev, size: 36),
+                title: Image.asset("assets/white1.png", width: 30),
               ),
-              // bottomNavigationBar: constraints.maxWidth > 640
-              //     ? null
-              //     : CustomBottomNavigationBar(
-              //         selectedIndex: tabsRouter.activeIndex,
-              //         onTap: tabsRouter.setActiveIndex,
-              //         items: [
-              //           CustomBottomNavigationBarItem(
-              //             label: 'Statistics',
-              //             selectedIcon: Icons.home_filled,
-              //             defaultIcon: Icons.home_filled,
-              //           ),
-              //           CustomBottomNavigationBarItem(
-              //             label: 'Home',
-              //             selectedIcon: Icons.chat_rounded,
-              //             defaultIcon: Icons.chat_rounded,
-              //           ),
-              //           CustomBottomNavigationBarItem(
-              //             label: 'Settings',
-              //             selectedIcon: Icons.settings_rounded,
-              //             defaultIcon: Icons.settings_rounded,
-              //           ),
-              //         ],
-              //       ),
+              backgroundColor: Colors.black,
             );
           },
         ),
