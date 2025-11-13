@@ -113,15 +113,17 @@
 
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sihkaro/presentation/widgets/animated_scale_wrapper.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar(
-      {super.key,
-      this.selectedIndex = 0,
-      required this.items,
-      required this.onTap});
+  const CustomBottomNavigationBar({
+    super.key,
+    this.selectedIndex = 0,
+    required this.items,
+    required this.onTap,
+  });
 
   final int selectedIndex;
   final List<CustomBottomNavigationBarItem> items;
@@ -144,11 +146,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   void processItems() {
     _items = List.empty(growable: true);
     for (int i = 0; i < widget.items.length; i++) {
-      _items.add(_CustomBottomNavigationBarItem(
+      _items.add(
+        _CustomBottomNavigationBarItem(
           selectedIcon: widget.items[i].selectedIcon,
           label: widget.items[i].label,
           defaultIcon: widget.items[i].defaultIcon,
-          position: i));
+          position: i,
+        ),
+      );
     }
   }
 
@@ -162,21 +167,30 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        topLeft: Radius.circular(0),
+        topRight: Radius.circular(0),
+      ),
       child: BackdropFilter(
         blendMode: BlendMode.src,
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.black.withAlpha(70),
+            border: BoxBorder.fromLTRB(
+              top: BorderSide(width: 0.5, color: Colors.white24),
+            ),
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
+            ),
           ),
           width: double.infinity,
-          height: kBottomNavigationBarHeight +
+          height:
+              kBottomNavigationBarHeight +
               MediaQuery.of(context).viewPadding.bottom,
           padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewPadding.bottom),
+            bottom: MediaQuery.of(context).viewPadding.bottom,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,8 +215,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                                 : item.defaultIcon,
                             size: 32,
                             color: item.position == widget.selectedIndex
-                                ? Theme.of(context).primaryColor.withAlpha(200)
-                                : Colors.white60,
+                                ? Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withAlpha(180)
+                                : Theme.of(context).colorScheme.onSurface,
                           ),
                           // Text(item.label)
                         ],
@@ -210,7 +226,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     ),
                   ),
                 );
-              })
+              }),
             ],
           ),
         ),
@@ -225,11 +241,12 @@ class _CustomBottomNavigationBarItem {
   final String label;
   final int position;
 
-  _CustomBottomNavigationBarItem(
-      {required this.selectedIcon,
-      required this.label,
-      required this.defaultIcon,
-      required this.position});
+  _CustomBottomNavigationBarItem({
+    required this.selectedIcon,
+    required this.label,
+    required this.defaultIcon,
+    required this.position,
+  });
 }
 
 class CustomBottomNavigationBarItem {
@@ -237,8 +254,9 @@ class CustomBottomNavigationBarItem {
   final IconData defaultIcon;
   final String label;
 
-  CustomBottomNavigationBarItem(
-      {required this.selectedIcon,
-      required this.label,
-      required this.defaultIcon});
+  CustomBottomNavigationBarItem({
+    required this.selectedIcon,
+    required this.label,
+    required this.defaultIcon,
+  });
 }
