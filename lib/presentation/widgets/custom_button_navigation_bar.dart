@@ -177,7 +177,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           decoration: BoxDecoration(
             color: Colors.black.withAlpha(70),
             border: BoxBorder.fromLTRB(
-              top: BorderSide(width: 0.5, color: Colors.white24),
+              top: BorderSide(width: 0.5, color: Colors.white10),
             ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(0),
