@@ -18,7 +18,7 @@ class HomeScreen extends HookConsumerWidget {
     final items = List.generate(
       20,
       (i) => now.subtract(Duration(hours: i * 3)),
-    ); // имитация разных дат
+    );
 
     final dateFormatter = DateFormat('d MMMM yyyy', 'ru');
 
@@ -27,16 +27,8 @@ class HomeScreen extends HookConsumerWidget {
 
     return CustomScrollView(
       slivers: [
-        //  AppBar(
-
-        //       actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-
-        //     )
         SliverAppBar(
-          // pinned: true,
-          floating: true,
-          // snap: true,
-          // stretch: true,
+          pinned: true,
           backgroundColor: Colors.transparent,
           elevation: null,
           flexibleSpace: GlossyCard(
@@ -51,52 +43,66 @@ class HomeScreen extends HookConsumerWidget {
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(),
           ),
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
           title: SvgPicture.asset(
             "assets/white1.svg",
             colorFilter: ColorFilter.mode(Colors.white70, BlendMode.srcIn),
             width: 36,
           ),
         ),
-        SliverPersistentHeader(
-          floating: true,
-          delegate: SliverAppBarDelegate(
-            minHeight: 56,
-            maxHeight: 56 + kToolbarHeight,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 4,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Ваши блокноты",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                ],
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+            child: Card(
+              color: Theme.of(context).cardColor.withAlpha(255),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 16,
+                  children: [
+                    Text(
+                      "Добро пожаловать в MindBookLM",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text("Исследуйте мир вместе с нами"),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-        // SliverToBoxAdapter(
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           "Ваши блокноты",
-        //           style: Theme.of(context).textTheme.titleLarge,
-        //         ),
-        //         IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-        //       ],
-        //     ),
-        //   ),
-        // ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: SliverAppBarDelegate(
+            minHeight: 56,
+            maxHeight: 56,
+            child: GlossyCard(
+              borderRadius: BorderRadius.circular(0),
+              padding: EdgeInsets.all(0),
+              border: BoxBorder.fromLTRB(
+                bottom: BorderSide(width: 1, color: Colors.white10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 4,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ваши блокноты",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
         SliverList.separated(
           itemCount: items.length,
           separatorBuilder: (context, index) {
@@ -135,13 +141,6 @@ class HomeScreen extends HookConsumerWidget {
                 padding: const EdgeInsets.only(left: 12.0),
                 child: Text(DateFormat.Hm().format(items[i])),
               ),
-
-              // tileColor: Colors.white,
-              // tileColor: color.withAlpha(10),
-              // selectedTileColor: color.withAlpha(20),
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(16),
-              // ),
               trailing: IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.more_vert),
