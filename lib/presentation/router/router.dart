@@ -12,10 +12,16 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: RootRoute.page, path: "/", guards: [_authGuard], children: [
-      AutoRoute(page: HomeRoute.page, path: "home"),
-      AutoRoute(page: NoteRoute.page, path: "note")
-    ]),
-    AutoRoute(page: AuthRoute.page, path: "/auth")
+    AutoRoute(
+      page: RootRoute.page,
+      path: "/",
+      guards: [_authGuard],
+      children: [
+        AutoRoute(page: ChatRoute.page, path: "chat"),
+        AutoRoute(page: HomeRoute.page, path: "home"),
+      ],
+    ),
+    AutoRoute(page: NoteRoute.page, path: "/note"),
+    AutoRoute(page: AuthRoute.page, path: "/auth"),
   ];
 }

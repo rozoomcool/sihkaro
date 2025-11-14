@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 import 'package:sihkaro/presentation/widgets/sliver_app_bar_delegate.dart';
 
@@ -96,7 +98,7 @@ class HomeScreen extends HookConsumerWidget {
                       "Ваши блокноты",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                    IconButton(onPressed: () {context.router.push(NoteRoute());}, icon: Icon(Icons.add)),
                   ],
                 ),
               ),
@@ -145,7 +147,9 @@ class HomeScreen extends HookConsumerWidget {
                 onPressed: () {},
                 icon: const Icon(Icons.more_vert),
               ),
-              onTap: () {},
+              onTap: () {
+                context.router.push(NoteRoute());
+              },
             );
           },
         ),

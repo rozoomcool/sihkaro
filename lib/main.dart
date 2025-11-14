@@ -20,6 +20,13 @@ class MainApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ThemeMode themeMode = ref.watch(themeModeSettingProvider);
     final appRouter = useState(AppRouter(ref));
+    
+    useEffect(() {
+      appRouter.value.navigationHistory.addListener(() {
+        debugPrint(appRouter.value.navigationHistory.toString());
+      });
+      return null;
+    }, []);
 
     return MaterialApp.router(
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
