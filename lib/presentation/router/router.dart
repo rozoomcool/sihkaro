@@ -19,6 +19,7 @@ class AppRouter extends RootStackRouter {
       children: [
         AutoRoute(page: ChatRoute.page, path: "chat"),
         AutoRoute(page: HomeRoute.page, path: "home"),
+        AutoRoute(page: SettingRoute.page, path: "setting"),
       ],
     ),
     AutoRoute(page: NoteRoute.page, path: "/note"),

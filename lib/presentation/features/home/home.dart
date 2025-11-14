@@ -7,6 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
+import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
+import 'package:sihkaro/presentation/widgets/custom_divider.dart';
+import 'package:sihkaro/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 import 'package:sihkaro/presentation/widgets/sliver_app_bar_delegate.dart';
 
@@ -16,6 +19,7 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeSettingProvider);
     final now = DateTime.now();
     final items = List.generate(
       20,
@@ -29,29 +33,7 @@ class HomeScreen extends HookConsumerWidget {
 
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          pinned: true,
-          backgroundColor: Colors.transparent,
-          elevation: null,
-          flexibleSpace: GlossyCard(
-            border: BoxBorder.fromLTRB(
-              bottom: BorderSide(color: Colors.white10, width: 1),
-            ),
-            borderRadius: BorderRadius.all(Radius.zero),
-            child: Container(),
-          ),
-          centerTitle: true,
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(),
-          ),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-          title: SvgPicture.asset(
-            "assets/white1.svg",
-            colorFilter: ColorFilter.mode(Colors.white70, BlendMode.srcIn),
-            width: 36,
-          ),
-        ),
+        CustomSliverAppBar(),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
@@ -83,7 +65,12 @@ class HomeScreen extends HookConsumerWidget {
               borderRadius: BorderRadius.circular(0),
               padding: EdgeInsets.all(0),
               border: BoxBorder.fromLTRB(
-                bottom: BorderSide(width: 1, color: Colors.white10),
+                bottom: BorderSide(
+                  width: 1,
+                  color: themeMode == ThemeMode.dark
+                      ? Colors.white10
+                      : Colors.black12,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -98,7 +85,12 @@ class HomeScreen extends HookConsumerWidget {
                       "Ваши блокноты",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    IconButton(onPressed: () {context.router.push(NoteRoute());}, icon: Icon(Icons.add)),
+                    IconButton(
+                      onPressed: () {
+                        context.router.push(NoteRoute());
+                      },
+                      icon: Icon(Icons.add),
+                    ),
                   ],
                 ),
               ),
@@ -130,7 +122,7 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               );
             }
-            return Divider(thickness: 1, color: Colors.white10);
+            return CustomDivider();
           },
           itemBuilder: (context, i) {
             return ListTile(

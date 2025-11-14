@@ -43,6 +43,7 @@ class NoteScreen extends HookConsumerWidget {
                 child: TextField(
                   maxLines: 4,
                   decoration: InputDecoration(
+                    hintText: "Введите запрос",
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                   ),
                 ),

@@ -123,10 +123,14 @@ class CustomBottomNavigationBar extends StatefulWidget {
     this.selectedIndex = 0,
     required this.items,
     required this.onTap,
+    this.border,
+    this.color,
   });
 
   final int selectedIndex;
   final List<CustomBottomNavigationBarItem> items;
+  final BoxBorder? border;
+  final Color? color;
   final void Function(int, {bool notify}) onTap;
 
   @override
@@ -175,10 +179,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.black.withAlpha(70),
-            border: BoxBorder.fromLTRB(
-              top: BorderSide(width: 0.5, color: Colors.white10),
-            ),
+            color: widget.color ?? Colors.black.withAlpha(70),
+            border:
+                widget.border ??
+                BoxBorder.fromLTRB(
+                  top: BorderSide(width: 0.5, color: Colors.white10),
+                ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(0),
               topRight: Radius.circular(0),

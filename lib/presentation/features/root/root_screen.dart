@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/auth/auth.dart';
+import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/custom_button_navigation_bar.dart';
 
 @RoutePage()
@@ -19,84 +20,30 @@ class RootScreen extends HookConsumerWidget {
     // final authAsync = ref.watch(authProvider);
     // final authNotifier = ref.read(authProvider.notifier);
 
+    final themeMode = ref.watch(themeModeSettingProvider);
+
     return LayoutBuilder(
       builder: (context, constraints) => ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 900),
         child: AutoTabsScaffold(
-          routes: [HomeRoute(), HomeRoute(), HomeRoute()],
-          // constraints.maxWidth < 640?
-          // : Flexible(
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.max,
-          //       children: [
-          //         NavigationRail(
-          //           labelType: NavigationRailLabelType.selected,
-          //           selectedIndex: tabsRouter.activeIndex,
-          //           onDestinationSelected: tabsRouter.setActiveIndex,
-          //           destinations: const [
-          //             NavigationRailDestination(
-          //               icon: Icon(Icons.home_outlined),
-          //               selectedIcon: Icon(Icons.home),
-          //               label: Text('Home'),
-          //             ),
-          //             NavigationRailDestination(
-          //               icon: Icon(Icons.calendar_month_outlined),
-          //               selectedIcon: Icon(Icons.calendar_month),
-          //               label: Text('Calendar'),
-          //             ),
-          //             NavigationRailDestination(
-          //               icon: Icon(Icons.email_outlined),
-          //               selectedIcon: Icon(Icons.email),
-          //               label: Text('Email'),
-          //             ),
-          //           ],
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          
-          // appBarBuilder: (context, router) {
-          //   return AppBar(
-          //     backgroundColor: Colors.transparent,
-          //     elevation: null,
-          //     flexibleSpace: ClipRRect(
-          //       borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(0),
-          //         bottomRight: Radius.circular(0),
-          //       ),
-          //       child: BackdropFilter(
-          //         blendMode: BlendMode.src,
-          //         filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.only(
-          //               bottomLeft: Radius.circular(0),
-          //               bottomRight: Radius.circular(0),
-          //             ),
-          //             border: BoxBorder.fromLTRB(
-          //               bottom: BorderSide(width: 1, color: Colors.white10),
-          //             ),
-          //             color: Colors.black12,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     leading: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: CircleAvatar(),
-          //     ),
-          //     actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-          //     title: SvgPicture.asset(
-          //       "assets/white1.svg",
-          //       colorFilter: ColorFilter.mode(Colors.white70, BlendMode.srcIn),
-          //       width: 36,
-          //     ),
-          //   );
-          // },
-          backgroundColor: Colors.black,
+          routes: [HomeRoute(), HomeRoute(), SettingRoute()],
+          backgroundColor: themeMode == ThemeMode.dark
+              ? Colors.black
+              : Colors.white,
           extendBody: true,
           bottomNavigationBuilder: (context, tabsRouter) {
             return CustomBottomNavigationBar(
+              border: BoxBorder.fromLTRB(
+                top: BorderSide(
+                  width: 1,
+                  color: themeMode == ThemeMode.dark
+                      ? Colors.white10
+                      : Colors.black12
+                ),
+              ),
+              color: themeMode == ThemeMode.dark
+                      ? Colors.black.withAlpha(70)
+                      : Colors.white.withAlpha(10),
               selectedIndex: tabsRouter.activeIndex,
               onTap: tabsRouter.setActiveIndex,
               items: [
