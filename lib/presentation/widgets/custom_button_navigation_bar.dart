@@ -215,10 +215,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                                 : item.defaultIcon,
                             size: 32,
                             color: item.position == widget.selectedIndex
-                                ? Theme.of(
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(
                                     context,
-                                  ).colorScheme.onSurface.withAlpha(180)
-                                : Theme.of(context).colorScheme.onSurface,
+                                  ).colorScheme.onSurface.withAlpha(180),
                           ),
                           // Text(item.label)
                         ],

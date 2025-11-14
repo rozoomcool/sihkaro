@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/auth/auth.dart';
 import 'package:sihkaro/presentation/widgets/custom_button_navigation_bar.dart';
 
@@ -22,6 +23,7 @@ class RootScreen extends HookConsumerWidget {
       builder: (context, constraints) => ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 900),
         child: AutoTabsScaffold(
+          routes: [HomeRoute(), HomeRoute(), HomeRoute()],
           // constraints.maxWidth < 640?
           // : Flexible(
           //     child: Row(
@@ -52,42 +54,46 @@ class RootScreen extends HookConsumerWidget {
           //       ],
           //     ),
           //   ),
-          appBarBuilder: (context, router) {
-            return AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              flexibleSpace: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
-                ),
-                child: BackdropFilter(
-                  blendMode: BlendMode.src,
-                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                      ),
-                      border: BoxBorder.fromLTRB(
-                        bottom: BorderSide(width: 1, color: Colors.white10),
-                      ),
-                      color: Colors.black.withAlpha(70),
-                    ),
-                  ),
-                ),
-              ),
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(),
-              ),
-              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-              title: SvgPicture.asset("assets/white1.svg", width: 30),
-            );
-          },
+          
+          // appBarBuilder: (context, router) {
+          //   return AppBar(
+          //     backgroundColor: Colors.transparent,
+          //     elevation: null,
+          //     flexibleSpace: ClipRRect(
+          //       borderRadius: BorderRadius.only(
+          //         bottomLeft: Radius.circular(0),
+          //         bottomRight: Radius.circular(0),
+          //       ),
+          //       child: BackdropFilter(
+          //         blendMode: BlendMode.src,
+          //         filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.only(
+          //               bottomLeft: Radius.circular(0),
+          //               bottomRight: Radius.circular(0),
+          //             ),
+          //             border: BoxBorder.fromLTRB(
+          //               bottom: BorderSide(width: 1, color: Colors.white10),
+          //             ),
+          //             color: Colors.black12,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //     leading: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: CircleAvatar(),
+          //     ),
+          //     actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+          //     title: SvgPicture.asset(
+          //       "assets/white1.svg",
+          //       colorFilter: ColorFilter.mode(Colors.white70, BlendMode.srcIn),
+          //       width: 36,
+          //     ),
+          //   );
+          // },
           backgroundColor: Colors.black,
-          extendBodyBehindAppBar: true,
           extendBody: true,
           bottomNavigationBuilder: (context, tabsRouter) {
             return CustomBottomNavigationBar(
