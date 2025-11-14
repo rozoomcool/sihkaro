@@ -18,9 +18,9 @@ class MainApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ThemeMode themeMode = ref.watch(themeModeSettingProvider);
+    final themeMode = ref.watch(themeModeSettingProvider);
     final appRouter = useState(AppRouter(ref));
-    
+
     useEffect(() {
       appRouter.value.navigationHistory.addListener(() {
         debugPrint(appRouter.value.navigationHistory.toString());
@@ -105,7 +105,7 @@ class MainApp extends HookConsumerWidget {
           ),
         ),
       ),
-      themeMode: themeMode,
+      themeMode: themeMode.value ?? ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.value.config(),
     );

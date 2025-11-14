@@ -17,7 +17,7 @@ class CustomSliverAppBar extends HookConsumerWidget {
       flexibleSpace: GlossyCard(
         border: BoxBorder.fromLTRB(
           bottom: BorderSide(
-            color: themeMode == ThemeMode.dark
+            color: themeMode.value == ThemeMode.dark
                 ? Colors.white10
                 : Colors.black12,
             width: 1,
@@ -35,7 +35,7 @@ class CustomSliverAppBar extends HookConsumerWidget {
       title: SvgPicture.asset(
         "assets/white1.svg",
         colorFilter: ColorFilter.mode(
-          themeMode == ThemeMode.dark ? Colors.white70 : Colors.black87,
+          themeMode.value == ThemeMode.dark ? Colors.white70 : Colors.black87,
           BlendMode.srcIn,
         ),
         width: 36,

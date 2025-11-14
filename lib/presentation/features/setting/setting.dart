@@ -1,13 +1,9 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/custom_sliver_app_bar.dart';
-import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 
 class SettingItem {
   String title;
@@ -40,7 +36,7 @@ class SettingScreen extends HookConsumerWidget {
               title: Text("Темная тема"),
               leading: Icon(Icons.sunny),
               trailing: Switch(
-                value: themeMode == ThemeMode.dark ? true : false,
+                value: themeMode.value == ThemeMode.dark ? true : false,
                 onChanged: (_) {
                   themeModeNotifier.changeTheme();
                 },

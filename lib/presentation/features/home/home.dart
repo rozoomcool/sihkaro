@@ -1,9 +1,5 @@
-import 'dart:ui';
-
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
@@ -38,6 +34,7 @@ class HomeScreen extends HookConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
             child: Card(
+              elevation: 0,
               color: Theme.of(context).cardColor.withAlpha(255),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -67,7 +64,7 @@ class HomeScreen extends HookConsumerWidget {
               border: BoxBorder.fromLTRB(
                 bottom: BorderSide(
                   width: 1,
-                  color: themeMode == ThemeMode.dark
+                  color: themeMode.value == ThemeMode.dark
                       ? Colors.white10
                       : Colors.black12,
                 ),

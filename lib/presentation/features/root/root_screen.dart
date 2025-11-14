@@ -1,12 +1,7 @@
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
-import 'package:sihkaro/presentation/state/auth/auth.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/custom_button_navigation_bar.dart';
 
@@ -27,7 +22,7 @@ class RootScreen extends HookConsumerWidget {
         constraints: BoxConstraints(maxWidth: 900),
         child: AutoTabsScaffold(
           routes: [HomeRoute(), HomeRoute(), SettingRoute()],
-          backgroundColor: themeMode == ThemeMode.dark
+          backgroundColor: themeMode.value == ThemeMode.dark
               ? Colors.black
               : Colors.white,
           extendBody: true,
@@ -36,12 +31,12 @@ class RootScreen extends HookConsumerWidget {
               border: BoxBorder.fromLTRB(
                 top: BorderSide(
                   width: 1,
-                  color: themeMode == ThemeMode.dark
+                  color: themeMode.value == ThemeMode.dark
                       ? Colors.white10
                       : Colors.black12
                 ),
               ),
-              color: themeMode == ThemeMode.dark
+              color: themeMode.value == ThemeMode.dark
                       ? Colors.black.withAlpha(70)
                       : Colors.white.withAlpha(10),
               selectedIndex: tabsRouter.activeIndex,
