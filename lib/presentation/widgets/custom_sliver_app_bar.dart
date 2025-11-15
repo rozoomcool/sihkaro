@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
+import 'package:sihkaro/presentation/widgets/app_logo.dart';
 import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 
 class CustomSliverAppBar extends HookConsumerWidget {
@@ -32,14 +32,7 @@ class CustomSliverAppBar extends HookConsumerWidget {
         child: CircleAvatar(),
       ),
       actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-      title: SvgPicture.asset(
-        "assets/white1.svg",
-        colorFilter: ColorFilter.mode(
-          themeMode.value == ThemeMode.dark ? Colors.white70 : Colors.black87,
-          BlendMode.srcIn,
-        ),
-        width: 36,
-      ),
+      title: AppLogo(),
     );
   }
 }

@@ -32,11 +32,11 @@ class MainApp extends HookConsumerWidget {
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
-          primary: Colors.cyan,
+          // seedColor: Colors.cyanAccent
           seedColor: Color(0xFF0092b8),
           secondary: Color(0xFF74d4ff),
-          surfaceContainerLow: Color(0xFF292524),
-          surface: Color(0xFF1c1917),
+          surfaceContainerLow: Color.fromARGB(255, 0, 0, 0),
+          surface: Colors.black,
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(

@@ -34,7 +34,7 @@ class SettingScreen extends HookConsumerWidget {
           children: [
             ListTile(
               title: Text("Темная тема"),
-              leading: Icon(Icons.sunny),
+              leading: Icon(Icons.brightness_6, size: 32,),
               trailing: Switch(
                 value: themeMode.value == ThemeMode.dark ? true : false,
                 onChanged: (_) {
