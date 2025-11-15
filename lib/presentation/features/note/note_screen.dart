@@ -1,11 +1,16 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_highlight/themes/a11y-dark.dart';
+import 'package:flutter_highlight/themes/a11y-light.dart';
+import 'package:flutter_highlight/themes/atom-one-dark.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:markdown_widget/widget/markdown.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/app_logo.dart';
+import 'package:sihkaro/presentation/widgets/custom_divider.dart';
 import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 
 @RoutePage()
@@ -15,6 +20,7 @@ class NoteScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeSettingProvider);
+    final options = useState(Set.of({}));
 
     return Scaffold(
       extendBody: true,
@@ -40,31 +46,94 @@ class NoteScreen extends HookConsumerWidget {
         elevation: null,
         title: Text("Блокнот 1"),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.add_link_rounded)),
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                enableDrag: true,
+                context: context,
+                builder: (context) {
+                  return GlossyCard(
+                    blueStrength: 10,
+                    color: themeMode.value == ThemeMode.dark
+                        ? Colors.black38
+                        : Colors.white54,
+                    border: BoxBorder.fromLTRB(
+                      top: BorderSide(
+                        width: 1,
+                        color: themeMode.value == ThemeMode.dark
+                            ? Colors.white10
+                            : Colors.black12,
+                      ),
+                    ),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        minHeight: 200,
+                        minWidth: double.infinity,
+                      ),
+                      child: ListView.separated(
+                        itemBuilder: (context, i) {
+                          return ListTile(
+                            leading: Icon(Icons.web),
+                            title: Text("stackoverflow.com"),
+                            subtitle: Text("Как решить прблему hasSize в flutter"),
+                          );
+                        },
+                        separatorBuilder: (context, i) => CustomDivider(),
+                        itemCount: 10,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.link_rounded),
+          ),
         ],
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                spacing: 16,
                 children: [
                   SizedBox(height: 150),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 16,
                     children: [
-                      AppLogo(size: 24),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
+                      Expanded(flex: 1, child: SizedBox()),
+                      Expanded(
+                        flex: 6,
+                        child: Card(
+                          elevation: 0,
+                          color: Theme.of(context).cardColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(24),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsGeometry.all(12),
+                            child: Text(
+                              "Напиши мне справочник по golang, приводя примеры и пояснения. Сделай его емким и обширным.",
+                              maxLines: null,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 16,
                         children: [
+                          CircleAvatar(child: AppLogo(size: 24)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             spacing: 4,
                             children: [
                               Text(
@@ -81,21 +150,35 @@ class NoteScreen extends HookConsumerWidget {
                               ),
                             ],
                           ),
-                          Flexible(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: MarkdownWidget(
-                                padding: EdgeInsets.all(0),
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                data: mrtext,
-                              ),
-                            ),
-                          ),
                         ],
+                      ),
+                      SizedBox(height: 8),
+                      Flexible(
+                        child: MarkdownWidget(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          config: MarkdownConfig(
+                            configs: [
+                              PreConfig(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              CodeConfig(
+                                style: TextStyle(
+                                  backgroundColor: Theme.of(context).cardColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          data: mrtext,
+                        ),
                       ),
                     ],
                   ),
+                  SizedBox(height: 270),
                 ],
               ),
             ),
@@ -110,7 +193,7 @@ class NoteScreen extends HookConsumerWidget {
               ),
               child: GlossyCard(
                 padding: EdgeInsets.all(8),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(28),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,26 +223,29 @@ class NoteScreen extends HookConsumerWidget {
                     Flexible(
                       child: SegmentedButton(
                         multiSelectionEnabled: true,
+                        emptySelectionAllowed: true,
                         showSelectedIcon: false,
                         segments: [
                           ButtonSegment(
                             label: Text("Think"),
                             icon: Icon(Icons.lightbulb_rounded),
-                            value: "think",
+                            value: "t",
                           ),
                           ButtonSegment(
                             label: Text("Context"),
                             icon: Icon(Icons.data_usage),
-                            value: "context",
+                            value: "co",
                           ),
                           ButtonSegment(
                             label: Text("Source"),
                             icon: Icon(Icons.link_rounded),
-                            value: "data",
+                            value: "s",
                           ),
                         ],
-                        selected: {"think"},
-                        onSelectionChanged: (_) {},
+                        selected: options.value,
+                        onSelectionChanged: (v) {
+                          options.value = v;
+                        },
                       ),
                     ),
                   ],

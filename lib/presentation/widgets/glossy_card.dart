@@ -12,6 +12,7 @@ class GlossyCard extends HookConsumerWidget {
     this.border,
     this.borderRadius,
     this.padding,
+    this.color,
   });
 
   final Widget child;
@@ -19,6 +20,7 @@ class GlossyCard extends HookConsumerWidget {
   final BoxBorder? border;
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsets? padding;
+  final Color? color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,12 +29,12 @@ class GlossyCard extends HookConsumerWidget {
       borderRadius: borderRadius ?? BorderRadius.circular(20),
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: blueStrength ?? 10,
-          sigmaY: blueStrength ?? 10,
+          sigmaX: blueStrength ?? 20,
+          sigmaY: blueStrength ?? 20,
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: color ?? Colors.transparent,
             border:
                 border ??
                 Border.all(

@@ -155,6 +155,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           selectedIcon: widget.items[i].selectedIcon,
           label: widget.items[i].label,
           defaultIcon: widget.items[i].defaultIcon,
+          selectedWidget: widget.items[i].selectedWidget,
+          defaultWidget: widget.items[i].defaultWidget,
           position: i,
         ),
       );
@@ -215,17 +217,23 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         spacing: 4,
                         children: [
-                          Icon(
+                          if (item.defaultWidget != null &&
+                              item.selectedWidget != null)
                             item.position == widget.selectedIndex
-                                ? item.selectedIcon
-                                : item.defaultIcon,
-                            size: 32,
-                            color: item.position == widget.selectedIndex
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface.withAlpha(180),
-                          ),
+                                ? item.selectedWidget!
+                                : item.defaultWidget!
+                          else
+                            Icon(
+                              item.position == widget.selectedIndex
+                                  ? item.selectedIcon
+                                  : item.defaultIcon,
+                              size: 32,
+                              color: item.position == widget.selectedIndex
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface.withAlpha(180),
+                            ),
                           // Text(item.label)
                         ],
                       ),
@@ -244,6 +252,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 class _CustomBottomNavigationBarItem {
   final IconData selectedIcon;
   final IconData defaultIcon;
+  final Widget? defaultWidget;
+  final Widget? selectedWidget;
   final String label;
   final int position;
 
@@ -252,17 +262,23 @@ class _CustomBottomNavigationBarItem {
     required this.label,
     required this.defaultIcon,
     required this.position,
+    this.selectedWidget,
+    this.defaultWidget,
   });
 }
 
 class CustomBottomNavigationBarItem {
   final IconData selectedIcon;
   final IconData defaultIcon;
+  final Widget? defaultWidget;
+  final Widget? selectedWidget;
   final String label;
 
   CustomBottomNavigationBarItem({
     required this.selectedIcon,
     required this.label,
     required this.defaultIcon,
+    this.defaultWidget,
+    this.selectedWidget,
   });
 }

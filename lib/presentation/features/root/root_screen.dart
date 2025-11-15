@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
+import 'package:sihkaro/presentation/widgets/app_logo.dart';
 import 'package:sihkaro/presentation/widgets/custom_button_navigation_bar.dart';
 
 @RoutePage()
@@ -33,24 +34,29 @@ class RootScreen extends HookConsumerWidget {
                   width: 1,
                   color: themeMode.value == ThemeMode.dark
                       ? Colors.white10
-                      : Colors.black12
+                      : Colors.black12,
                 ),
               ),
               color: themeMode.value == ThemeMode.dark
-                      ? Colors.black.withAlpha(70)
-                      : Colors.white.withAlpha(10),
+                  ? Colors.black.withAlpha(70)
+                  : Colors.white.withAlpha(10),
               selectedIndex: tabsRouter.activeIndex,
               onTap: tabsRouter.setActiveIndex,
               items: [
                 CustomBottomNavigationBarItem(
-                  label: 'Statistics',
+                  label: 'Home',
                   selectedIcon: Icons.home_filled,
                   defaultIcon: Icons.home_filled,
                 ),
                 CustomBottomNavigationBarItem(
-                  label: 'Home',
+                  label: 'Chat',
                   selectedIcon: Icons.chat_rounded,
                   defaultIcon: Icons.chat_rounded,
+                  selectedWidget: AppLogo(
+                    size: 28,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  defaultWidget: AppLogo(size: 28),
                 ),
                 CustomBottomNavigationBarItem(
                   label: 'Settings',

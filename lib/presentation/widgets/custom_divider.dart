@@ -10,7 +10,7 @@ class CustomDivider extends HookConsumerWidget {
     final themeMode = ref.watch(themeModeSettingProvider);
     return Divider(
       thickness: 1,
-      color: themeMode == ThemeMode.dark ? Colors.white10 : Colors.black12,
+      color: themeMode.value == ThemeMode.dark ? Colors.white10 : Colors.black12,
     );
   }
 }

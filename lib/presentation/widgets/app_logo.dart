@@ -4,9 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 
 class AppLogo extends HookConsumerWidget {
-  const AppLogo({super.key, this.size});
+  const AppLogo({super.key, this.size, this.color});
 
   final double? size;
+  final Color? color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,9 +18,9 @@ class AppLogo extends HookConsumerWidget {
       //   themeMode.value == ThemeMode.dark ? Colors.white70 : Colors.black87,
       //   BlendMode.srcIn,
       // ),
-      color: themeMode.value == ThemeMode.dark
-          ? Colors.white70
-          : Colors.black87,
+      color:
+          color ??
+          (themeMode.value == ThemeMode.dark ? Colors.white70 : Colors.black87),
       width: size ?? 36,
     );
   }
