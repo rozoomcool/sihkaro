@@ -1,10 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/themes/a11y-dark.dart';
-import 'package:flutter_highlight/themes/a11y-light.dart';
-import 'package:flutter_highlight/themes/atom-one-dark.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:markdown_widget/widget/markdown.dart';
@@ -21,6 +17,7 @@ class NoteScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeSettingProvider);
     final options = useState(Set.of({}));
+    final titleController = useTextEditingController(text: "Без названия");
 
     return Scaffold(
       extendBody: true,
@@ -44,8 +41,15 @@ class NoteScreen extends HookConsumerWidget {
           ),
         ),
         elevation: null,
-        title: Text("Блокнот 1"),
+        centerTitle: true,
+        title: TextField(
+          controller: titleController,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleMedium,
+          decoration: InputDecoration.collapsed(hintText: ""),
+        ),
         actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.architecture_rounded)),
           IconButton(
             onPressed: () {
               showModalBottomSheet(
@@ -56,8 +60,8 @@ class NoteScreen extends HookConsumerWidget {
                   return GlossyCard(
                     blueStrength: 10,
                     color: themeMode.value == ThemeMode.dark
-                        ? Colors.black38
-                        : Colors.white54,
+                        ? Colors.black
+                        : Colors.white,
                     border: BoxBorder.fromLTRB(
                       top: BorderSide(
                         width: 1,
@@ -76,7 +80,9 @@ class NoteScreen extends HookConsumerWidget {
                           return ListTile(
                             leading: Icon(Icons.web),
                             title: Text("stackoverflow.com"),
-                            subtitle: Text("Как решить прблему hasSize в flutter"),
+                            subtitle: Text(
+                              "Как решить прблему hasSize в flutter",
+                            ),
                           );
                         },
                         separatorBuilder: (context, i) => CustomDivider(),
@@ -99,7 +105,7 @@ class NoteScreen extends HookConsumerWidget {
               child: Column(
                 spacing: 16,
                 children: [
-                  SizedBox(height: 150),
+                  SizedBox(height: 124),
                   Row(
                     children: [
                       Expanded(flex: 1, child: SizedBox()),
@@ -189,7 +195,8 @@ class NoteScreen extends HookConsumerWidget {
               padding: EdgeInsets.only(
                 right: 16.0,
                 left: 16.0,
-                bottom: 16 + MediaQuery.of(context).viewPadding.bottom,
+                bottom: 24,
+                // bottom: 16 + MediaQuery.of(context).viewPadding.bottom,
               ),
               child: GlossyCard(
                 padding: EdgeInsets.all(8),
@@ -207,6 +214,10 @@ class NoteScreen extends HookConsumerWidget {
                             minLines: 1,
                             maxLines: 4,
                             decoration: InputDecoration(
+                              prefixIcon: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.attachment_rounded),
+                              ),
                               hintText: "Введите запрос",
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -222,9 +233,9 @@ class NoteScreen extends HookConsumerWidget {
                     ),
                     Flexible(
                       child: SegmentedButton(
-                        multiSelectionEnabled: true,
                         emptySelectionAllowed: true,
                         showSelectedIcon: false,
+                        multiSelectionEnabled: true,
                         segments: [
                           ButtonSegment(
                             label: Text("Think"),

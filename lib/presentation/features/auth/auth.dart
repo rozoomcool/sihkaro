@@ -17,7 +17,7 @@ class AuthScreen extends HookConsumerWidget {
     final authNotifier = ref.read(authProvider.notifier);
 
     final isLoading = authAsync.isLoading;
-    final isAuthenticated = authAsync.value == AuthStatus.authenticated;
+    final isAuthenticated = authAsync == AuthStatus.authenticated;
 
     // Реактивно ловим изменение статуса авторизации
     ref.listen<AsyncValue<AuthStatus>>(authProvider, (prev, next) {
@@ -39,7 +39,7 @@ class AuthScreen extends HookConsumerWidget {
               if (!isAuthenticated)
                 TextField(
                   controller: tokenController,
-                  enabled: !isLoading,
+                  // enabled: !isLoading,
                   decoration: InputDecoration(
                     hintText: "Введите токен",
                     filled: true,

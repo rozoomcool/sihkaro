@@ -22,7 +22,7 @@ class RootScreen extends HookConsumerWidget {
       builder: (context, constraints) => ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 900),
         child: AutoTabsScaffold(
-          routes: [HomeRoute(), HomeRoute(), SettingRoute()],
+          routes: [HomeRoute(), ChatRoute(), SettingRoute()],
           backgroundColor: themeMode.value == ThemeMode.dark
               ? Colors.black
               : Colors.white,

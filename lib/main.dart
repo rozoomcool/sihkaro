@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sihkaro/domain/repo/auth_repo.dart';
+import 'package:sihkaro/domain/repo/theme_repo.dart';
 import 'package:sihkaro/presentation/router/router.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
-  await SharedPreferences.getInstance();
+
+  final sharedPrefs = SharedPreferences.getInstance();
+  GetIt.I.registerFactoryAsync<SharedPreferences>(() => sharedPrefs);
+  GetIt.I.registerFactory(() => AuthRepository(GetIt.I<SharedPreferences>()));
+  GetIt.I.registerFactory(() => ThemeRepository(GetIt.I()));
+
   runApp(ProviderScope(child: const MainApp()));
 }
 
@@ -105,7 +113,7 @@ class MainApp extends HookConsumerWidget {
           ),
         ),
       ),
-      themeMode: themeMode.value ?? ThemeMode.dark,
+      themeMode: themeMode.value ?? ThemeMode.light,
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.value.config(),
     );

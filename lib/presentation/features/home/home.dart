@@ -142,6 +142,9 @@ class HomeScreen extends HookConsumerWidget {
             );
           },
         ),
+        SliverToBoxAdapter(
+          child: SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
+        ),
       ],
     );
   }
