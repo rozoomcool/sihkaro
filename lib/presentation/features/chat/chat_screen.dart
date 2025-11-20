@@ -9,7 +9,6 @@ import 'package:sihkaro/presentation/features/note/note_screen.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/app_logo.dart';
 import 'package:sihkaro/presentation/widgets/custom_app_bar.dart';
-import 'package:sihkaro/presentation/widgets/custom_divider.dart';
 import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 
 @RoutePage()
