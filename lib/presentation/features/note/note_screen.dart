@@ -11,7 +11,8 @@ import 'package:sihkaro/presentation/widgets/glossy_card.dart';
 
 @RoutePage()
 class NoteScreen extends HookConsumerWidget {
-  const NoteScreen({super.key});
+  const NoteScreen({super.key, required this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

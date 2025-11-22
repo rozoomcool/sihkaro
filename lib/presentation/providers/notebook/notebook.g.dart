@@ -46,4 +46,4 @@ final class GetUserNotebooksProvider
   }
 }
 
-String _$getUserNotebooksHash() => r'b3931c28628cd1471c097b41b28857f41795b274';
+String _$getUserNotebooksHash() => r'b57ebdbbfd761650c24313f4fcacd87e364426c3';

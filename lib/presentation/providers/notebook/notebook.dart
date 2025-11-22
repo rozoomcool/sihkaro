@@ -7,5 +7,8 @@ part 'notebook.g.dart';
 
 @riverpod
 Future<List<Notebook>> getUserNotebooks(Ref ref) async {
-  return await GetIt.I<NotebookRestClient>().getUserNotebooks();
+  ref.keepAlive();
+  final notebooks = await GetIt.I<NotebookRestClient>().getUserNotebooks();
+  notebooks.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+  return notebooks;
 }

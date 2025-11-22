@@ -51,11 +51,12 @@ class _NotebookRestClient implements NotebookRestClient {
   }
 
   @override
-  Future<Notebook> addNotebook(String title) async {
+  Future<Notebook> addNotebook(NotebookCreate data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = title;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<Notebook>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(

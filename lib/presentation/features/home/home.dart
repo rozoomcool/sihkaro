@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:sihkaro/domain/api/providers/notebook/notebook.dart';
+import 'package:sihkaro/domain/api/dto/notebook/notebook.dart';
+import 'package:sihkaro/domain/api/notebook/notebook.dart';
+import 'package:sihkaro/presentation/providers/notebook/notebook.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/custom_divider.dart';
@@ -18,16 +22,16 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeSettingProvider);
     final notebooks = ref.watch(getUserNotebooksProvider);
-    final now = DateTime.now();
-    final items = List.generate(
-      20,
-      (i) => now.subtract(Duration(hours: i * 3)),
-    );
 
-    final dateFormatter = DateFormat('d MMMM yyyy', 'ru');
-
-    String formatDate(DateTime dt) =>
-        dateFormatter.format(DateTime(dt.year, dt.month, dt.day));
+    Future<void> createNotebook() async {
+      await GetIt.I<NotebookRestClient>()
+          .addNotebook(NotebookCreate(title: "Новый блокнот"))
+          .then((v) {
+            ref.invalidate(getUserNotebooksProvider);
+            if (context.mounted) context.pushRoute(NoteRoute(id: v.id));
+          })
+          .onError((e, s) {});
+    }
 
     return CustomScrollView(
       slivers: [
@@ -85,9 +89,7 @@ class HomeScreen extends HookConsumerWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     IconButton(
-                      onPressed: () {
-                        context.router.push(NoteRoute());
-                      },
+                      onPressed: createNotebook,
                       icon: Icon(Icons.add),
                     ),
                   ],
@@ -100,8 +102,8 @@ class HomeScreen extends HookConsumerWidget {
           AsyncData(:final value) => SliverList.separated(
             itemCount: value.length,
             separatorBuilder: (context, index) {
-              final prevDate = formatDate(items[index]);
-              final nextDate = formatDate(items[index + 1]);
+              final prevDate = formatDate(value[index].updatedAt);
+              final nextDate = formatDate(value[index + 1].updatedAt);
               if (prevDate != nextDate) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -127,6 +129,7 @@ class HomeScreen extends HookConsumerWidget {
             },
             itemBuilder: (context, i) {
               return ListTile(
+                key: ValueKey(value[i].id),
                 // contentPadding: const EdgeInsets.all(8),
                 title: Padding(
                   padding: const EdgeInsets.only(left: 12.0),
@@ -134,19 +137,21 @@ class HomeScreen extends HookConsumerWidget {
                 ),
                 subtitle: Padding(
                   padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(value[i].updatedAt.toUtc().toString()),
+                  child: Text(formatDateH(value[i].updatedAt)),
                 ),
                 trailing: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.more_vert),
                 ),
                 onTap: () {
-                  context.router.push(NoteRoute());
+                  context.router.push(NoteRoute(id: value[i].id));
                 },
               );
             },
           ),
-          AsyncError(:final error) => SliverToBoxAdapter(child: Text("Ошибка: $error")),
+          AsyncError(:final error) => SliverToBoxAdapter(
+            child: Text("Ошибка: $error"),
+          ),
           _ => const SliverToBoxAdapter(child: Text("Loading")),
         },
 
@@ -157,3 +162,11 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 }
+
+final dateFormatter = DateFormat('d MMMM yyyy', 'ru');
+final dateFormatterHours = DateFormat('d MMMM yyyy hh:mm', 'ru');
+String formatDate(DateTime dt) =>
+    dateFormatter.format(DateTime(dt.year, dt.month, dt.day));
+String formatDateH(DateTime dt) => dateFormatterHours.format(
+  DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute),
+);
