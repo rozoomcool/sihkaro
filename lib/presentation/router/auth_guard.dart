@@ -10,24 +10,31 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final authAsync = ref.watch(authProvider);
+    final authAsync = await ref.watch(authProvider.future);
     // final authState = await ref.read(authProvider.future);
-    authAsync.when(
-      data: (status) {
-        if (status == AuthStatus.authenticated) {
-          resolver.next(true);
-        } else {
-          router.replace(const AuthRoute());
-        }
-      },
-      error: (err, trace) {
-          router.replace(const AuthRoute());
 
-      },
-      loading: () {
-          router.replace(const AuthRoute());
+    if (authAsync == AuthStatus.authenticated) {
+      resolver.next(true);
+    } else {
+      router.replace(const AuthRoute());
+    }
 
-      },
-    );
+    // authAsync.when(
+    //   data: (status) {
+    //     if (status == AuthStatus.authenticated) {
+    //       resolver.next(true);
+    //     } else {
+    //       router.replace(const AuthRoute());
+    //     }
+    //   },
+    //   error: (err, trace) {
+    //       router.replace(const AuthRoute());
+
+    //   },
+    //   loading: () {
+    //       router.replace(const AuthRoute());
+
+    //   },
+    // );
   }
 }

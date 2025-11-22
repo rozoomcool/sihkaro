@@ -17,7 +17,7 @@ class AuthScreen extends HookConsumerWidget {
     final authNotifier = ref.read(authProvider.notifier);
 
     final isLoading = authAsync.isLoading;
-    final isAuthenticated = authAsync == AuthStatus.authenticated;
+    final isAuthenticated = authAsync.value == AuthStatus.authenticated;
 
     // Реактивно ловим изменение статуса авторизации
     ref.listen<AsyncValue<AuthStatus>>(authProvider, (prev, next) {

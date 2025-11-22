@@ -12,7 +12,7 @@ part of 'notebook.dart';
 
 class _NotebookRestClient implements NotebookRestClient {
   _NotebookRestClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= '80.249.145.80:8000/api/v1/notebooks';
+    baseUrl ??= 'http://80.249.145.80:8000/api/v1/notebooks';
   }
 
   final Dio _dio;
@@ -22,7 +22,7 @@ class _NotebookRestClient implements NotebookRestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<Notebook>> getTasks() async {
+  Future<List<Notebook>> getUserNotebooks() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -31,7 +31,7 @@ class _NotebookRestClient implements NotebookRestClient {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/',
+            '/user',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -43,6 +43,33 @@ class _NotebookRestClient implements NotebookRestClient {
       _value = _result.data!
           .map((dynamic i) => Notebook.fromJson(i as Map<String, dynamic>))
           .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Notebook> addNotebook(String title) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = title;
+    final _options = _setStreamType<Notebook>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Notebook _value;
+    try {
+      _value = Notebook.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;

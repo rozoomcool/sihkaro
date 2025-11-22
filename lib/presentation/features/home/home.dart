@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:sihkaro/domain/api/providers/notebook/notebook.dart';
 import 'package:sihkaro/presentation/router/router.gr.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/custom_divider.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeSettingProvider);
+    final notebooks = ref.watch(getUserNotebooksProvider);
     final now = DateTime.now();
     final items = List.generate(
       20,
@@ -94,54 +96,60 @@ class HomeScreen extends HookConsumerWidget {
             ),
           ),
         ),
-        SliverList.separated(
-          itemCount: items.length,
-          separatorBuilder: (context, index) {
-            final prevDate = formatDate(items[index]);
-            final nextDate = formatDate(items[index + 1]);
-            if (prevDate != nextDate) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Row(
-                  children: [
-                    // Expanded(child: Divider(thickness: 1)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        nextDate,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.outline,
+        switch (notebooks) {
+          AsyncData(:final value) => SliverList.separated(
+            itemCount: value.length,
+            separatorBuilder: (context, index) {
+              final prevDate = formatDate(items[index]);
+              final nextDate = formatDate(items[index + 1]);
+              if (prevDate != nextDate) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      // Expanded(child: Divider(thickness: 1)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          nextDate,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
                         ),
                       ),
-                    ),
-                    // Expanded(child: Divider(thickness: 1)),
-                  ],
+                      // Expanded(child: Divider(thickness: 1)),
+                    ],
+                  ),
+                );
+              }
+              return CustomDivider();
+            },
+            itemBuilder: (context, i) {
+              return ListTile(
+                // contentPadding: const EdgeInsets.all(8),
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(value[i].title),
                 ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(value[i].updatedAt.toUtc().toString()),
+                ),
+                trailing: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_vert),
+                ),
+                onTap: () {
+                  context.router.push(NoteRoute());
+                },
               );
-            }
-            return CustomDivider();
-          },
-          itemBuilder: (context, i) {
-            return ListTile(
-              // contentPadding: const EdgeInsets.all(8),
-              title: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text('Элемент ${i + 1}'),
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text(DateFormat.Hm().format(items[i])),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.more_vert),
-              ),
-              onTap: () {
-                context.router.push(NoteRoute());
-              },
-            );
-          },
-        ),
+            },
+          ),
+          AsyncError(:final error) => SliverToBoxAdapter(child: Text("Ошибка: $error")),
+          _ => const SliverToBoxAdapter(child: Text("Loading")),
+        },
+
         SliverToBoxAdapter(
           child: SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
         ),

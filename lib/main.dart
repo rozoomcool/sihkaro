@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sihkaro/domain/api/dio.dart';
+import 'package:sihkaro/domain/api/notebook/notebook.dart';
 import 'package:sihkaro/domain/repo/auth_repo.dart';
 import 'package:sihkaro/domain/repo/theme_repo.dart';
 import 'package:sihkaro/presentation/router/router.dart';
@@ -13,10 +15,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
 
-  final sharedPrefs = SharedPreferences.getInstance();
-  GetIt.I.registerFactoryAsync<SharedPreferences>(() => sharedPrefs);
+  // Register shared preferences
+  final sharedPrefs = await SharedPreferences.getInstance();
+  GetIt.I.registerFactory<SharedPreferences>(() => sharedPrefs);
+
+  // Register repositories
   GetIt.I.registerFactory(() => AuthRepository(GetIt.I<SharedPreferences>()));
   GetIt.I.registerFactory(() => ThemeRepository(GetIt.I()));
+
+  // Register Rest Clients
+  GetIt.I.registerFactory(() => configureDio(GetIt.I()));
+  GetIt.I.registerFactory(() => NotebookRestClient(GetIt.I()));
 
   runApp(ProviderScope(child: const MainApp()));
 }

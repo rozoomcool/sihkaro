@@ -18,7 +18,7 @@ Dio configureDio(AuthRepository authSharedRepository) {
     onRequest: (options, handler) async {
       print("::: ${authSharedRepository.getToken()}");
       options.headers["Authorization"] =
-          "Bearer ${GetIt.I<AuthRepository>().getToken()}";
+          "Bearer ${await GetIt.I<AuthRepository>().getToken()}";
       return handler.next(options);
     },
     // onError: (error, handler) async {

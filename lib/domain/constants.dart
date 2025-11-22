@@ -1,1 +1,1 @@
-const String baseUrl = "80.249.145.80:8000";
+const String baseUrl = "http://80.249.145.80:8000";

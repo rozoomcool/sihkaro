@@ -9,6 +9,9 @@ part 'notebook.g.dart';
 abstract class NotebookRestClient {
   factory NotebookRestClient(Dio dio, {String? baseUrl}) = _NotebookRestClient;
 
-  @GET('/')
-  Future<List<Notebook>> getTasks();
+  @GET('/user')
+  Future<List<Notebook>> getUserNotebooks();
+
+  @POST("/")
+  Future<Notebook> addNotebook(@Body() String title);
 }
