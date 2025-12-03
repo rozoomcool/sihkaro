@@ -13,6 +13,9 @@ abstract class NotebookRestClient {
   @GET('/user')
   Future<List<Notebook>> getUserNotebooks();
 
+  @GET('/{id}')
+  Future<NotebookById> getNotebookById(@Path() String id);
+
   @POST("/")
   Future<Notebook> addNotebook(@Body() NotebookCreate data);
 }

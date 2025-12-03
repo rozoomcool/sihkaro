@@ -51,6 +51,33 @@ class _NotebookRestClient implements NotebookRestClient {
   }
 
   @override
+  Future<NotebookById> getNotebookById(String id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<NotebookById>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late NotebookById _value;
+    try {
+      _value = NotebookById.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Notebook> addNotebook(NotebookCreate data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

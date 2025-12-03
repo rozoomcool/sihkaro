@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:markdown_widget/widget/markdown.dart';
+import 'package:sihkaro/domain/model/notebook/notebook.dart';
+import 'package:sihkaro/presentation/providers/notebook/notebook.dart';
 import 'package:sihkaro/presentation/state/theme/theme_mode_setting.dart';
 import 'package:sihkaro/presentation/widgets/app_logo.dart';
 import 'package:sihkaro/presentation/widgets/custom_divider.dart';
@@ -16,9 +17,19 @@ class NoteScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final notebook = ref.watch(getNotebookByIdProviderProvider(id));
+    final titleController = useTextEditingController();
+    final notebook = ref.watch(getNotebookByIdProviderProvider(id));
     final themeMode = ref.watch(themeModeSettingProvider);
     final options = useState(Set.of({}));
-    final titleController = useTextEditingController(text: "Без названия");
+
+    useEffect(() {
+      debugPrint("${notebook.value} _______________");
+      if (notebook.value?.title != null) {
+        titleController.text = notebook.value?.title ?? "руддщ";
+      }
+      return null;
+    }, [notebook]);
 
     return Scaffold(
       extendBody: true,
@@ -30,7 +41,6 @@ class NoteScreen extends HookConsumerWidget {
         backgroundColor: Colors.transparent,
         notificationPredicate: (_) => false,
         flexibleSpace: GlossyCard(
-          child: Container(),
           borderRadius: BorderRadius.all(Radius.zero),
           border: BoxBorder.fromLTRB(
             bottom: BorderSide(
@@ -40,6 +50,7 @@ class NoteScreen extends HookConsumerWidget {
                   : Colors.black12,
             ),
           ),
+          child: Container(),
         ),
         elevation: null,
         centerTitle: true,

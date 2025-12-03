@@ -47,3 +47,80 @@ final class GetUserNotebooksProvider
 }
 
 String _$getUserNotebooksHash() => r'b57ebdbbfd761650c24313f4fcacd87e364426c3';
+
+@ProviderFor(getNotebookByIdProvider)
+const getNotebookByIdProviderProvider = GetNotebookByIdProviderFamily._();
+
+final class GetNotebookByIdProviderProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<NotebookById>,
+          NotebookById,
+          FutureOr<NotebookById>
+        >
+    with $FutureModifier<NotebookById>, $FutureProvider<NotebookById> {
+  const GetNotebookByIdProviderProvider._({
+    required GetNotebookByIdProviderFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getNotebookByIdProviderProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$getNotebookByIdProviderHash();
+
+  @override
+  String toString() {
+    return r'getNotebookByIdProviderProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<NotebookById> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<NotebookById> create(Ref ref) {
+    final argument = this.argument as String;
+    return getNotebookByIdProvider(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetNotebookByIdProviderProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$getNotebookByIdProviderHash() =>
+    r'fc17f179cba2d33a86499b9dec5459e8bc1cb985';
+
+final class GetNotebookByIdProviderFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<NotebookById>, String> {
+  const GetNotebookByIdProviderFamily._()
+    : super(
+        retry: null,
+        name: r'getNotebookByIdProviderProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  GetNotebookByIdProviderProvider call(String id) =>
+      GetNotebookByIdProviderProvider._(argument: id, from: this);
+
+  @override
+  String toString() => r'getNotebookByIdProviderProvider';
+}
